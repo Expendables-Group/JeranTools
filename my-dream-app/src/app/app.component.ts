@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import{Http,Response} from '@angular/http';
+import { OnInit,Component } from '@angular/core';
+import{Http,Response,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,31 +11,47 @@ import { HttpClient } from '@angular/common/http';
 
 
 })
-export class AppComponent {
+export class AppComponent{
+  name : String;
+  password : String
   constructor(public http: Http) {
     
       }
-    
+     
       send() {
-      //   this.http.get('http://localhost:3000/user')
-      //   .map((response: Response) => {
-      //    var result = response.json();
-      //     console.log(response)
-      //     return result;
-      //  this.http.get(`http://localhost:3000/user`)
-      // .map((response: Response) => {
-      //   console.log()
-      //   var result = response.json();
-      //   console.log('hi'+result);
-      //   //return result;
-      //  });
-  
-      // }
-     this.http.get('http://localhost:4200/user').subscribe(data => {
-        // data is now an instance of type ItemsResponse, so you can do this:
-        console.log(data)
-      });
-    
+        const that = this;
+       console.log(that)
+        this.http.post('http://localhost:3000/user',{
+          username: that.name,
+          password: that.password
+        })
+        // JSON.stringify({
+        //   username: that.name,
+        //   password: that.password
+        // })
+      .subscribe(
+        data => {
+          alert('ok');
+          console.log(data)
+        },
+        error => {
+          console.log(error , "erooooooooooooooooooe");
+        }
+        )
+
 }
+    //   send() {
+    //     console.log(this.password)
+    //  this.http.get('http://localhost:3000/user')
+    // .map(res => res.json())
+    // .subscribe(
+    //   data =>{
+    //     console.log(data)
+    //   },
+    //   err => console.log(err),
+    //   () => console.log("khawa" )
+    // );
+    
+    //     }
 
 }
