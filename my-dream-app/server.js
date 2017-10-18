@@ -3,17 +3,19 @@ const express = require('express');
 const app= express()
 const pg = require('pg');
 const path = require('path');
+var morgan = require('morgan')
 var bodyparser=require('body-parser')
 var urlencodedParser = bodyparser.urlencoded({ extended: false })
 app.use(express.static(path.join(__dirname, "../")));
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded())
+app.use(morgan('dev'));
 const connectionString = process.env.DATABASE_URL || 'postgres://mazendb:123456@localhost:5433/jerancomdb';
 
 
 app.post('/user', urlencodedParser,(req, res, next) => {
+    console.log(req.body)
    const results = [];
-   console.log(req.body)
    // Grab data from http request
    const data = {username: req.body.username, password: req.body.password};
    // Get a Postgres client from the connection pool
@@ -42,6 +44,8 @@ app.post('/user', urlencodedParser,(req, res, next) => {
  });
 
  app.get('/user', (req, res, next) => {
+     console.log('hiiiiiiiii')
+     console.log(req.body)
    const results = [];
    // Get a Postgres client from the connection pool
    pg.connect(connectionString, (err, client, done) => {
